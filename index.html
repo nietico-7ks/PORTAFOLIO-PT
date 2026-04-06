@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portafolio PHP</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --card: #1a1a28;
+    --border: #2a2a40;
+    --php: #8892BF;
+    --php-dark: #4F5B93;
+    --accent: #ff6b35;
+    --accent2: #a78bfa;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --green: #4ade80;
+    --yellow: #facc15;
+    --red: #f87171;
+    --cyan: #22d3ee;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--php);
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+  .nav-links a:hover {
+    color: var(--php);
+    border-color: var(--php-dark);
+    background: rgba(136,146,191,0.08);
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(79,91,147,0.25) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--php);
+    background: rgba(136,146,191,0.12);
+    border: 1px solid rgba(136,146,191,0.3);
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 2rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero h1 .php-text { color: var(--php); }
+  .hero h1 .accent-text { color: var(--accent); }
+
+  .hero-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 1.5rem;
+    max-width: 500px;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 3rem;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .hero-stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    text-align: center;
+  }
+  .hero-stat .num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--php);
+  }
+  .hero-stat .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.25rem;
+  }
+
+  /* SECTIONS */
+  .section {
+    padding: 5rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    background: rgba(255,107,53,0.1);
+    border: 1px solid rgba(255,107,53,0.3);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  .section-title span { color: var(--php); }
+
+  /* CODE CARD */
+  .code-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.3s;
+  }
+  .code-card:hover { border-color: var(--php-dark); }
+
+  .code-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1.25rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dots { display: flex; gap: 6px; }
+  .dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+  }
+  .dot-r { background: #f87171; }
+  .dot-y { background: #facc15; }
+  .dot-g { background: #4ade80; }
+
+  .file-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-left: 0.5rem;
+  }
+
+  .code-body {
+    padding: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.8;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  /* Syntax colors */
+  .kw { color: #c792ea; }        /* keyword */
+  .fn { color: #82aaff; }        /* function */
+  .str { color: #c3e88d; }       /* string */
+  .num { color: #f78c6c; }       /* number */
+  .cmt { color: #546e7a; font-style: italic; } /* comment */
+  .var { color: #89ddff; }       /* variable */
+  .op { color: #89ddff; }        /* operator */
+  .tag { color: var(--php); }    /* php tag */
+  .bool { color: #ff9cac; }      /* bool */
+  .arr { color: var(--yellow); } /* array key */
+
+  /* EXPLAIN CARD */
+  .explain {
+    background: rgba(136,146,191,0.05);
+    border: 1px solid rgba(136,146,191,0.15);
+    border-left: 3px solid var(--php);
+    border-radius: 0 12px 12px 0;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .explain strong { color: var(--text); }
+
+  /* TWO COL */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  /* TABLE */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+  .data-table th {
+    background: var(--surface);
+    color: var(--php);
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 2px solid var(--border);
+  }
+  .data-table td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .data-table tr:hover td { background: var(--card); color: var(--text); }
+  .data-table td:first-child { color: var(--cyan); }
+
+  /* TAG LIST */
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .tag-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid;
+  }
+  .pill-blue { color: #82aaff; border-color: rgba(130,170,255,0.3); background: rgba(130,170,255,0.08); }
+  .pill-green { color: var(--green); border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.08); }
+  .pill-red { color: var(--red); border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.08); }
+  .pill-yellow { color: var(--yellow); border-color: rgba(250,204,21,0.3); background: rgba(250,204,21,0.08); }
+  .pill-purple { color: var(--accent2); border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.08); }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 1rem 0 3rem;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  footer span { color: var(--php); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Scroll animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 640px) {
+    .two-col { grid-template-columns: 1fr; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hero h1 { font-size: 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">&lt;<span>?php</span>&gt;</div>
+  <ul class="nav-links">
+    <li><a href="#comentarios">Comentarios</a></li>
+    <li><a href="#variables">Variables</a></li>
+    <li><a href="#tipos">Tipos</a></li>
+    <li><a href="#operadores">Operadores</a></li>
+    <li><a href="#estructuras">Estructuras</a></li>
+    <li><a href="#bucles">Bucles</a></li>
+    <li><a href="#arrays">Arrays</a></li>
+    <li><a href="#superglobales">Superglobales</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">✦ Portafolio de Programación</div>
+  <h1>
+    <span class="php-text">PHP</span><br>
+    <span class="accent-text">Sintaxis</span> Esencial
+  </h1>
+  <p class="hero-sub">// Una referencia completa de los fundamentos del lenguaje PHP</p>
+  <div class="hero-grid">
+    <div class="hero-stat"><div class="num">9</div><div class="label">Temas</div></div>
+    <div class="hero-stat"><div class="num">25+</div><div class="label">Ejemplos</div></div>
+    <div class="hero-stat"><div class="num">PHP</div><div class="label">8.x</div></div>
+  </div>
+</section>
+
+<!-- 0. SINTAXIS -->
+<div class="divider"></div>
+<section class="section" id="sintaxis">
+  <div class="section-header reveal">
+    <span class="section-num">00</span>
+    <h2 class="section-title">Sintaxis de <span>PHP</span></h2>
+  </div>
+  <div class="explain reveal">
+    PHP (Hypertext Preprocessor) es un lenguaje de scripting del lado del servidor. El código PHP se incrusta en HTML usando las etiquetas <strong>&lt;?php ... ?&gt;</strong>. Todo script comienza con la etiqueta de apertura y cada instrucción termina con <strong>;</strong> (punto y coma).
+  </div>
+  <div class="code-card reveal">
+    <div class="code-card-header">
+      <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+      <span class="file-name">sintaxis.php</span>
+    </div>
+    <div class="code-body"><span class="cmt">// Etiqueta de apertura obligatoria</span>
+<span class="tag">&lt;?php</span>
+
+<span class="cmt">// Toda instrucción termina en punto y coma</span>
+<span class="fn">echo</span> <span class="str">"Hola, mundo!"</span>;
+
+<span class="cmt">// PHP también puede mezclarse con HTML</span>
+<span class="fn">echo</span> <span class="str">"&lt;h1&gt;Bienvenido&lt;/h1&gt;"</span>;
+
+<span class="cmt">// PHP distingue mayúsculas en variables, no en funciones</span>
+<span class="var">$nombre</span> = <span class="str">"Ana"</span>;
+<span class="fn">Echo</span>(<span class="var">$nombre</span>);  <span class="cmt">// válido, Echo == echo</span>
+
+<span class="tag">?&gt;</span></div>
+  </div>
+</section>
+
+<!-- 1. COMENTARIOS -->
+<div class="divider"></div>
+<section class="section" id="comentarios">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title"><span>Comentarios</span></h2>
+  </div>
+  <div class="explain reveal">
+    Los comentarios son texto ignorado por el intérprete PHP. Sirven para <strong>documentar el código</strong>, explicar la lógica o deshabilitar temporalmente instrucciones. PHP soporta tres estilos de comentarios.
+  </div>
+  <div class="two-col">
+    <div class="code-card reveal">
+      <div class="code-card-header">
+        <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+        <span class="file-name">comentarios.php</span>
+      </div>
+      <div class="code-body"><span class="tag">&lt;?php</span>
+
+<span class="cmt">// 1. Comentario de una línea (estilo C++)</span>
+<span class="var">$x</span> = <span class="num">10</span>;  <span class="cmt">// esto es x</span>
+
+<span class="cmt"># 2. Comentario de una línea (estilo Shell)</span>
+<span class="var">$y</span> = <span class="num">20</span>;  <span class="cmt"># esto es y</span>
+
+<span class="cmt">/* 3. Comentario
+   de múltiples líneas
+   muy útil para documentar */</span>
+<span class="var">$z</span> = <span class="var">$x</span> + <span class="var">$y</span>;
+
+<span class="fn">echo</span> <span class="var">$z</span>;  <span class="cmt">// imprime: 30</span>
+
+<span class="tag">?&gt;</span></div>
+    </div>
+    <div class="explain reveal" style="align-self:start">
+      <strong>// Una línea</strong> → Comenta hasta el final de la línea.<br><br>
+      <strong># Una línea</strong> → Equivalente al anterior, heredado de Perl/Shell.<br><br>
+      <strong>/* Bloque */</strong> → Abarca múltiples líneas, ideal para descripciones largas o bloques de código deshabilitados.
+    </div>
+  </div>
+</section>
+
+<!-- 2. VARIABLES -->
+<div class="divider"></div>
+<section class="section" id="variables">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title"><span>Variables</span></h2>
+  </div>
+  <div class="explain reveal">
+    En PHP las variables se declaran con el prefijo <strong>$</strong> seguido del nombre. Son <strong>tipado dinámico</strong>: no necesitas declarar el tipo, PHP lo infiere automáticamente. Los nombres son sensibles a mayúsculas (<code>$Nombre ≠ $nombre</code>).
+  </div>
+  <div class="code-card reveal">
+    <div class="code-card-header">
+      <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+      <span class="file-name">variables.php</span>
+    </div>
+    <div class="code-body"><span class="tag">&lt;?php</span>
+
+<span class="cmt">// Declaración y asignación</span>
+<span class="var">$nombre</span>  = <span class="str">"Carlos"</span>;
+<span class="var">$edad</span>    = <span class="num">25</span>;
+<span class="var">$altura</span>  = <span class="num">1.75</span>;
+<span class="var">$activo</span>  = <span class="bool">true</span>;
+
+<span class="cmt">// Asignación por referencia (alias)</span>
+<span class="var">$a</span> = <span class="num">100</span>;
+<span class="var">$b</span> = &amp;<span class="var">$a</span>;  <span class="cmt">// $b apunta al mismo valor que $a</span>
+<span class="var">$a</span> = <span class="num">200</span>;
+<span class="fn">echo</span> <span class="var">$b</span>;  <span class="cmt">// imprime: 200</span>
+
+<span class="cmt">// Variables variables (nombre dinámico)</span>
+<span class="var">$campo</span> = <span class="str">"ciudad"</span>;
+<span class="op">$$</span><span class="var">campo</span> = <span class="str">"Bogotá"</span>;
+<span class="fn">echo</span> <span class="var">$ciudad</span>;  <span class="cmt">// imprime: Bogotá</span>
+
+<span class="cmt">// Constantes (sin $)</span>
+<span class="fn">define</span>(<span class="str">"PI"</span>, <span class="num">3.14159</span>);
+<span class="fn">echo</span> PI;  <span class="cmt">// imprime: 3.14159</span>
+
+<span class="tag">?&gt;</span></div>
+  </div>
+  <div class="tag-list reveal">
+    <span class="tag-pill pill-blue">$variable</span>
+    <span class="tag-pill pill-green">$$variable_variable</span>
+    <span class="tag-pill pill-purple">&$referencia</span>
+    <span class="tag-pill pill-yellow">define("CONSTANTE")</span>
+    <span class="tag-pill pill-red">const CONSTANTE</span>
+  </div>
+</section>
+
+<!-- 3. TIPOS DE DATOS -->
+<div class="divider"></div>
+<section class="section" id="tipos">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Tipos de <span>Datos</span></h2>
+  </div>
+  <div class="explain reveal">
+    PHP maneja <strong>8 tipos primitivos</strong>. Los tipos escalares son los más usados en el día a día; los compuestos permiten estructuras más complejas; y los especiales representan casos únicos como la ausencia de valor o referencias a recursos externos.
+  </div>
+  <table class="data-table reveal">
+    <thead><tr><th>Tipo</th><th>Ejemplo</th><th>Descripción</th></tr></thead>
+    <tbody>
+      <tr><td>int</td><td>$x = 42;</td><td>Número entero (positivo o negativo)</td></tr>
+      <tr><td>float</td><td>$p = 3.14;</td><td>Número decimal de punto flotante</td></tr>
+      <tr><td>string</td><td>$s = "hola";</td><td>Cadena de texto</td></tr>
+      <tr><td>bool</td><td>$ok = true;</td><td>Valor verdadero o falso</td></tr>
+      <tr><td>array</td><td>$a = [1,2,3];</td><td>Colección de valores</td></tr>
+      <tr><td>object</td><td>$obj = new Clase();</td><td>Instancia de una clase</td></tr>
+      <tr><td>null</td><td>$v = null;</td><td>Ausencia de valor</td></tr>
+      <tr><td>resource</td><td>fopen(...)</td><td>Referencia a recurso externo</td></tr>
+    </tbody>
+  </table>
+  <div class="code-card reveal">
+    <div class="code-card-header">
+      <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+      <span class="file-name">tipos.php</span>
+    </div>
+    <div class="code-body"><span class="tag">&lt;?php</span>
+
+<span class="var">$entero</span>  = <span class="num">42</span>;
+<span class="var">$decimal</span> = <span class="num">3.14</span>;
+<span class="var">$texto</span>   = <span class="str">"Hola PHP"</span>;
+<span class="var">$booleano</span>= <span class="bool">true</span>;
+<span class="var">$nulo</span>    = <span class="bool">null</span>;
+
+<span class="cmt">// Verificar el tipo</span>
+<span class="fn">var_dump</span>(<span class="var">$entero</span>);   <span class="cmt">// int(42)</span>
+<span class="fn">var_dump</span>(<span class="var">$decimal</span>);  <span class="cmt">// float(3.14)</span>
+<span class="fn">gettype</span>(<span class="var">$texto</span>);     <span class="cmt">// "string"</span>
+
+<span class="cmt">// Conversión de tipos (casting)</span>
+<span class="var">$num</span> = (<span class="kw">int</span>) <span class="str">"42abc"</span>;   <span class="cmt">// → 42</span>
+<span class="var">$str</span> = (<span class="kw">string</span>) <span class="num">3.9</span>;   <span class="cmt">// → "3.9"</span>
+<span class="var">$flt</span> = (<span class="kw">float</span>) <span class="str">"7.5x"</span>;  <span class="cmt">// → 7.5</span>
+
+<span class="tag">?&gt;</span></div>
+  </div>
+</section>
+
+<!-- 4. OPERADORES -->
+<div class="divider"></div>
+<section class="section" id="operadores">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <h2 class="section-title"><span>Operadores</span></h2>
+  </div>
+  <div class="explain reveal">
+    Los operadores permiten realizar <strong>cálculos, comparaciones y operaciones lógicas</strong>. PHP tiene un conjunto rico de operadores, incluyendo algunos únicos como el operador nave espacial (<code>&lt;=&gt;</code>) y el de fusión null (<code>??</code>).
+  </div>
+  <div class="code-card reveal">
+    <div class="code-card-header">
+      <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+      <span class="file-name">operadores.php</span>
+    </div>
+    <div class="code-body"><span class="tag">&lt;?php</span>
+
+<span class="cmt">// ── ARITMÉTICOS ──────────────────────────</span>
+<span class="fn">echo</span> <span class="num">10</span> + <span class="num">3</span>;   <span class="cmt">// 13  → suma</span>
+<span class="fn">echo</span> <span class="num">10</span> - <span class="num">3</span>;   <span class="cmt">// 7   → resta</span>
+<span class="fn">echo</span> <span class="num">10</span> * <span class="num">3</span>;   <span class="cmt">// 30  → multiplicación</span>
+<span class="fn">echo</span> <span class="num">10</span> / <span class="num">3</span>;   <span class="cmt">// 3.33 → división</span>
+<span class="fn">echo</span> <span class="num">10</span> % <span class="num">3</span>;   <span class="cmt">// 1   → módulo (resto)</span>
+<span class="fn">echo</span> <span class="num">2</span> ** <span class="num">8</span>;   <span class="cmt">// 256 → potencia</span>
+
+<span class="cmt">// ── ASIGNACIÓN ───────────────────────────</span>
+<span class="var">$x</span>  = <span class="num">10</span>;
+<span class="var">$x</span> += <span class="num">5</span>;   <span class="cmt">// $x = 15</span>
+<span class="var">$x</span> -= <span class="num">3</span>;   <span class="cmt">// $x = 12</span>
+<span class="var">$x</span> *= <span class="num">2</span>;   <span class="cmt">// $x = 24</span>
+<span class="var">$x</span> /= <span class="num">4</span>;   <span class="cmt">// $x = 6</span>
+<span class="var">$x</span> .= <span class="str">" pts"</span>; <span class="cmt">// concatena</span>
+
+<span class="cmt">// ── COMPARACIÓN ──────────────────────────</span>
+<span class="fn">var_dump</span>(<span class="num">5</span> == <span class="str">"5"</span>);   <span class="cmt">// true  (igual valor)</span>
+<span class="fn">var_dump</span>(<span class="num">5</span> === <span class="str">"5"</span>);  <span class="cmt">// false (igual valor Y tipo)</span>
+<span class="fn">var_dump</span>(<span class="num">5</span> != <span class="num">4</span>);    <span class="cmt">// true</span>
+<span class="fn">var_dump</span>(<span class="num">3</span> &lt;=&gt; <span class="num">5</span>);   <span class="cmt">// -1 (nave espacial)</span>
+
+<span class="cmt">// ── LÓGICOS ──────────────────────────────</span>
+<span class="fn">var_dump</span>(<span class="bool">true</span> &amp;&amp; <span class="bool">false</span>); <span class="cmt">// false → AND</span>
+<span class="fn">var_dump</span>(<span class="bool">true</span> || <span class="bool">false</span>); <span class="cmt">// true  → OR</span>
+<span class="fn">var_dump</span>(!<span class="bool">true</span>);         <span class="cmt">// false → NOT</span>
+
+<span class="cmt">// ── ESPECIALES ───────────────────────────</span>
+<span class="var">$val</span> = <span class="bool">null</span> ?? <span class="str">"default"</span>;  <span class="cmt">// "default" (fusión null)</span>
+<span class="var">$msg</span> = <span class="num">1</span> > <span class="num">0</span> ? <span class="str">"Sí"</span> : <span class="str">"No"</span>; <span class="cmt">// ternario</span>
+
+<span class="tag">?&gt;</span></div>
+  </div>
+</section>
+
+<!-- 5. ESTRUCTURAS DE CONTROL -->
+<div class="divider"></div>
+<section class="section" id="estructuras">
+  <div class="section-header reveal">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Estructuras de <span>Control</span></h2>
+  </div>
+  <div class="explain reveal">
+    Permiten <strong>tomar decisiones</strong> en el flujo del programa. El bloque <code>if/elseif/else</code> es la base; <code>switch</code> evalúa múltiples casos; y <code>match</code> (PHP 8) es más estricto y devuelve un valor directamente.
+  </div>
+  <div class="code-card reveal">
+    <div class="code-card-header">
+      <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+      <span class="file-name">estructuras.php</span>
+    </div>
+    <div class="code-body"><span class="tag">&lt;?php</span>
+
+<span class="var">$nota</span> = <span class="num">85</span>;
+
+<span class="cmt">// ── IF / ELSEIF / ELSE ───────────────────</span>
+<span class="kw">if</span> (<span class="var">$nota</span> >= <span class="num">90</span>) {
+    <span class="fn">echo</span> <span class="str">"Sobresaliente"</span>;
+} <span class="kw">elseif</span> (<span class="var">$nota</span> >= <span class="num">70</span>) {
+    <span class="fn">echo</span> <span class="str">"Aprobado"</span>;     <span class="cmt">// ← se ejecuta esto</span>
+} <span class="kw">else</span> {
+    <span class="fn">echo</span> <span class="str">"Reprobado"</span>;
+}
+
+<span class="cmt">// ── SWITCH ───────────────────────────────</span>
+<span class="var">$dia</span> = <span class="str">"lunes"</span>;
+<span class="kw">switch</span> (<span class="var">$dia</span>) {
+    <span class="kw">case</span> <span class="str">"lunes"</span>:
+    <span class="kw">case</span> <span class="str">"martes"</span>:
+        <span class="fn">echo</span> <span class="str">"Inicio de semana"</span>;
+        <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="str">"viernes"</span>:
+        <span class="fn">echo</span> <span class="str">"¡Casi fin de semana!"</span>;
+        <span class="kw">break</span>;
+    <span class="kw">default</span>:
+        <span class="fn">echo</span> <span class="str">"Día normal"</span>;
+}
+
+<span class="cmt">// ── MATCH (PHP 8+) ───────────────────────</span>
+<span class="var">$estado</span> = <span class="num">2</span>;
+<span class="var">$texto</span> = <span class="kw">match</span>(<span class="var">$estado</span>) {
+    <span class="num">1</span>       => <span class="str">"Pendiente"</span>,
+    <span class="num">2</span>, <span class="num">3</span>    => <span class="str">"En proceso"</span>,  <span class="cmt">// ← coincide</span>
+    <span class="kw">default</span> => <span class="str">"Desconocido"</span>,
+};
+<span class="fn">echo</span> <span class="var">$texto</span>;  <span class="cmt">// En proceso</span>
+
+<span class="tag">?&gt;</span></div>
+  </div>
+</section>
+
+<!-- 6. BUCLES -->
+<div class="divider"></div>
+<section class="section" id="bucles">
+  <div class="section-header reveal">
+    <span class="section-num">06</span>
+    <h2 class="section-title"><span>Bucles</span></h2>
+  </div>
+  <div class="explain reveal">
+    Los bucles permiten <strong>repetir un bloque de código</strong>. PHP ofrece cuatro tipos: <code>for</code> (contador conocido), <code>while</code> (condición al inicio), <code>do...while</code> (condición al final, siempre ejecuta al menos una vez) y <code>foreach</code> (ideal para arrays).
+  </div>
+  <div class="code-card reveal">
+    <div class="code-card-header">
+      <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+      <span class="file-name">bucles.php</span>
+    </div>
+    <div class="code-body"><span class="tag">&lt;?php</span>
+
+<span class="cmt">// ── FOR ──────────────────────────────────</span>
+<span class="kw">for</span> (<span class="var">$i</span> = <span class="num">0</span>; <span class="var">$i</span> < <span class="num">5</span>; <span class="var">$i</span>++) {
+    <span class="fn">echo</span> <span class="var">$i</span> . <span class="str">" "</span>;  <span class="cmt">// 0 1 2 3 4</span>
+}
+
+<span class="cmt">// ── WHILE ────────────────────────────────</span>
+<span class="var">$contador</span> = <span class="num">1</span>;
+<span class="kw">while</span> (<span class="var">$contador</span> <= <span class="num">3</span>) {
+    <span class="fn">echo</span> <span class="str">"Vuelta "</span> . <span class="var">$contador</span>;
+    <span class="var">$contador</span>++;
+}
+
+<span class="cmt">// ── DO...WHILE ───────────────────────────</span>
+<span class="var">$x</span> = <span class="num">10</span>;
+<span class="kw">do</span> {
+    <span class="fn">echo</span> <span class="var">$x</span>;       <span class="cmt">// se ejecuta aunque $x > 5</span>
+    <span class="var">$x</span>++;
+} <span class="kw">while</span> (<span class="var">$x</span> < <span class="num">5</span>);
+
+<span class="cmt">// ── FOREACH ──────────────────────────────</span>
+<span class="var">$frutas</span> = [<span class="str">"mango"</span>, <span class="str">"kiwi"</span>, <span class="str">"fresa"</span>];
+<span class="kw">foreach</span> (<span class="var">$frutas</span> <span class="kw">as</span> <span class="var">$fruta</span>) {
+    <span class="fn">echo</span> <span class="var">$fruta</span> . <span class="str">"\n"</span>;
+}
+
+<span class="cmt">// ── CONTROL DE FLUJO ─────────────────────</span>
+<span class="kw">for</span> (<span class="var">$i</span> = <span class="num">0</span>; <span class="var">$i</span> < <span class="num">10</span>; <span class="var">$i</span>++) {
+    <span class="kw">if</span> (<span class="var">$i</span> == <span class="num">3</span>) <span class="kw">continue</span>;  <span class="cmt">// salta la iteración 3</span>
+    <span class="kw">if</span> (<span class="var">$i</span> == <span class="num">7</span>) <span class="kw">break</span>;     <span class="cmt">// detiene el bucle en 7</span>
+    <span class="fn">echo</span> <span class="var">$i</span> . <span class="str">" "</span>;
+}
+<span class="cmt">// imprime: 0 1 2 4 5 6</span>
+
+<span class="tag">?&gt;</span></div>
+  </div>
+</section>
+
+<!-- 7. ARRAYS -->
+<div class="divider"></div>
+<section class="section" id="arrays">
+  <div class="section-header reveal">
+    <span class="section-num">07</span>
+    <h2 class="section-title"><span>Arrays</span></h2>
+  </div>
+  <div class="explain reveal">
+    En PHP, los arrays son estructuras de datos muy versátiles: pueden ser <strong>indexados</strong> (claves numéricas automáticas), <strong>asociativos</strong> (claves personalizadas tipo clave-valor) o <strong>multidimensionales</strong> (arrays dentro de arrays). La función <code>array()</code> y la sintaxis <code>[]</code> son equivalentes.
+  </div>
+  <div class="code-card reveal">
+    <div class="code-card-header">
+      <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+      <span class="file-name">arrays.php</span>
+    </div>
+    <div class="code-body"><span class="tag">&lt;?php</span>
+
+<span class="cmt">// ── ARRAY INDEXADO ───────────────────────</span>
+<span class="var">$colores</span> = [<span class="str">"rojo"</span>, <span class="str">"verde"</span>, <span class="str">"azul"</span>];
+<span class="fn">echo</span> <span class="var">$colores</span>[<span class="num">0</span>];  <span class="cmt">// rojo</span>
+<span class="var">$colores</span>[] = <span class="str">"amarillo"</span>;  <span class="cmt">// agregar al final</span>
+
+<span class="cmt">// ── ARRAY ASOCIATIVO ─────────────────────</span>
+<span class="var">$persona</span> = [
+    <span class="arr">"nombre"</span> => <span class="str">"Luis"</span>,
+    <span class="arr">"edad"</span>   => <span class="num">28</span>,
+    <span class="arr">"ciudad"</span> => <span class="str">"Medellín"</span>,
+];
+<span class="fn">echo</span> <span class="var">$persona</span>[<span class="str">"nombre"</span>];  <span class="cmt">// Luis</span>
+
+<span class="cmt">// ── ARRAY MULTIDIMENSIONAL ───────────────</span>
+<span class="var">$matriz</span> = [
+    [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>],
+    [<span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>],
+];
+<span class="fn">echo</span> <span class="var">$matriz</span>[<span class="num">1</span>][<span class="num">2</span>];  <span class="cmt">// 6</span>
+
+<span class="cmt">// ── FUNCIONES ÚTILES ─────────────────────</span>
+<span class="fn">count</span>(<span class="var">$colores</span>);        <span class="cmt">// cantidad de elementos</span>
+<span class="fn">sort</span>(<span class="var">$colores</span>);         <span class="cmt">// ordenar (modifica el original)</span>
+<span class="fn">array_push</span>(<span class="var">$colores</span>, <span class="str">"rosa"</span>);
+<span class="fn">array_pop</span>(<span class="var">$colores</span>);    <span class="cmt">// elimina el último</span>
+<span class="fn">in_array</span>(<span class="str">"rojo"</span>, <span class="var">$colores</span>);  <span class="cmt">// true/false</span>
+<span class="fn">array_keys</span>(<span class="var">$persona</span>);   <span class="cmt">// ["nombre","edad","ciudad"]</span>
+<span class="fn">array_values</span>(<span class="var">$persona</span>); <span class="cmt">// ["Luis", 28, "Medellín"]</span>
+<span class="fn">array_merge</span>(<span class="var">$colores</span>, [<span class="str">"negro"</span>]);
+
+<span class="cmt">// ── FOREACH CON CLAVE Y VALOR ─────────────</span>
+<span class="kw">foreach</span> (<span class="var">$persona</span> <span class="kw">as</span> <span class="var">$clave</span> => <span class="var">$valor</span>) {
+    <span class="fn">echo</span> <span class="str">"$clave: $valor\n"</span>;
+}
+
+<span class="tag">?&gt;</span></div>
+  </div>
+</section>
+
+<!-- 8. SUPERGLOBALES -->
+<div class="divider"></div>
+<section class="section" id="superglobales">
+  <div class="section-header reveal">
+    <span class="section-num">08</span>
+    <h2 class="section-title"><span>Superglobales</span></h2>
+  </div>
+  <div class="explain reveal">
+    Las superglobales son <strong>variables predefinidas por PHP</strong> accesibles desde cualquier ámbito (funciones, clases, archivos). Contienen información del servidor, la solicitud HTTP, las sesiones, las cookies y más. Son arrays asociativos que PHP llena automáticamente.
+  </div>
+  <table class="data-table reveal">
+    <thead><tr><th>Variable</th><th>Descripción</th></tr></thead>
+    <tbody>
+      <tr><td>$_GET</td><td>Parámetros enviados por URL (método GET)</td></tr>
+      <tr><td>$_POST</td><td>Datos enviados por formulario (método POST)</td></tr>
+      <tr><td>$_REQUEST</td><td>Combina $_GET, $_POST y $_COOKIE</td></tr>
+      <tr><td>$_SERVER</td><td>Info del servidor y del entorno de ejecución</td></tr>
+      <tr><td>$_SESSION</td><td>Variables de sesión del usuario actual</td></tr>
+      <tr><td>$_COOKIE</td><td>Cookies enviadas por el navegador</td></tr>
+      <tr><td>$_FILES</td><td>Archivos subidos mediante formulario</td></tr>
+      <tr><td>$_ENV</td><td>Variables de entorno del sistema</td></tr>
+      <tr><td>$GLOBALS</td><td>Todas las variables globales del script</td></tr>
+    </tbody>
+  </table>
+  <div class="code-card reveal">
+    <div class="code-card-header">
+      <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+      <span class="file-name">superglobales.php</span>
+    </div>
+    <div class="code-body"><span class="tag">&lt;?php</span>
+
+<span class="cmt">// ── $_GET ────────────────────────────────</span>
+<span class="cmt">// URL: pagina.php?nombre=Ana&edad=30</span>
+<span class="var">$nombre</span> = <span class="var">$_GET</span>[<span class="str">"nombre"</span>] ?? <span class="str">"Invitado"</span>;
+<span class="fn">echo</span> <span class="str">"Hola, "</span> . <span class="fn">htmlspecialchars</span>(<span class="var">$nombre</span>);
+
+<span class="cmt">// ── $_POST ───────────────────────────────</span>
+<span class="cmt">// Formulario con method="post"</span>
+<span class="kw">if</span> (<span class="var">$_SERVER</span>[<span class="str">"REQUEST_METHOD"</span>] === <span class="str">"POST"</span>) {
+    <span class="var">$email</span> = <span class="var">$_POST</span>[<span class="str">"email"</span>] ?? <span class="str">""</span>;
+    <span class="fn">echo</span> <span class="str">"Email recibido: "</span> . <span class="fn">htmlspecialchars</span>(<span class="var">$email</span>);
+}
+
+<span class="cmt">// ── $_SERVER ─────────────────────────────</span>
+<span class="fn">echo</span> <span class="var">$_SERVER</span>[<span class="str">"SERVER_NAME"</span>];  <span class="cmt">// ej: localhost</span>
+<span class="fn">echo</span> <span class="var">$_SERVER</span>[<span class="str">"REQUEST_URI"</span>];  <span class="cmt">// /ruta/pagina.php</span>
+<span class="fn">echo</span> <span class="var">$_SERVER</span>[<span class="str">"REMOTE_ADDR"</span>];  <span class="cmt">// IP del cliente</span>
+
+<span class="cmt">// ── $_SESSION ────────────────────────────</span>
+<span class="fn">session_start</span>();  <span class="cmt">// ¡siempre al inicio!</span>
+<span class="var">$_SESSION</span>[<span class="str">"usuario"</span>] = <span class="str">"Carlos"</span>;
+<span class="fn">echo</span> <span class="var">$_SESSION</span>[<span class="str">"usuario"</span>];  <span class="cmt">// persiste entre páginas</span>
+
+<span class="cmt">// ── $_COOKIE ─────────────────────────────</span>
+<span class="fn">setcookie</span>(<span class="str">"tema"</span>, <span class="str">"oscuro"</span>, <span class="fn">time</span>() + <span class="num">86400</span>);
+<span class="fn">echo</span> <span class="var">$_COOKIE</span>[<span class="str">"tema"</span>] ?? <span class="str">"claro"</span>;
+
+<span class="cmt">// ── $_FILES ──────────────────────────────</span>
+<span class="cmt">// Formulario: enctype="multipart/form-data"</span>
+<span class="var">$archivo</span> = <span class="var">$_FILES</span>[<span class="str">"foto"</span>][<span class="str">"name"</span>];
+<span class="var">$tmp</span>     = <span class="var">$_FILES</span>[<span class="str">"foto"</span>][<span class="str">"tmp_name"</span>];
+<span class="fn">move_uploaded_file</span>(<span class="var">$tmp</span>, <span class="str">"uploads/"</span> . <span class="var">$archivo</span>);
+
+<span class="tag">?&gt;</span></div>
+  </div>
+  <div class="explain reveal">
+    ⚠️ <strong>Seguridad:</strong> Nunca uses datos de superglobales directamente en HTML o consultas SQL sin sanitizarlos. Usa siempre <code>htmlspecialchars()</code> para salida HTML y <strong>sentencias preparadas</strong> para bases de datos.
+  </div>
+</section>
+
+<footer>
+  <p>Portafolio PHP · Sintaxis Esencial · <span>PHP 8.x</span></p>
+  <p style="margin-top:0.5rem">Creado con 💜 · 2026</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
